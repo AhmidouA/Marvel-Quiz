@@ -19,11 +19,23 @@ import ErrorPage from '../ErrorPage';
 
 function App() {
   return (
-    <div>
-      <Header />
-      <Landing />
-      <Footer />
-    </div>
+
+      <Router>
+        <Header />
+        {/* <Routes> a remplacé <Switch> */}
+        <Routes >
+            {/* Les routes pour pouvoir les utiliser */}
+            <Route path='/' element={<Landing />} />
+            <Route path='/welcome' element={<Welcome />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<SignUp />} />
+
+            {/* Error Page:  L'etoile * veut dire All page non trouvé */}
+            <Route path='*' element={<ErrorPage />} />                        
+        </Routes> 
+        <Footer />    
+      </Router>    
+
   );
 }
 
