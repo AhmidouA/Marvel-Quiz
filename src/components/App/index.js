@@ -7,7 +7,7 @@ import Landing from '../Landing';
 import Footer from '../Footer';
 import Welcome from '../Welcome';
 import Login from '../Login';
-
+import SignUp from '../SignUp';
 
 function App() {
   return (
@@ -16,8 +16,9 @@ function App() {
 
       <Welcome />
       <Landing />
+      <SignUp />
       <Login />
-      
+           
       <Footer />
     </div>
   );
