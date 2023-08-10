@@ -6,14 +6,18 @@ import Header from '../Header';
 import Landing from '../Landing';
 import Footer from '../Footer';
 import Welcome from '../Welcome';
+import Login from '../Login';
 
 
 function App() {
   return (
     <div>
       <Header />
+
       <Welcome />
       <Landing />
+      <Login />
+      
       <Footer />
     </div>
   );
