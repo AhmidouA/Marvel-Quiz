@@ -1,4 +1,8 @@
+// React and Hooks
 import React, {useRef, useEffect, useState} from 'react'
+
+import { Link } from 'react-router-dom';
+// React link  => dirige vers un lien (=Page ou url de la page)
 
 
 const Landing = () => {
@@ -60,11 +64,11 @@ const Landing = () => {
             return (
                 <React.Fragment> {/* React Fragments: permet de regrouper plusieurs éléments enfants sans ajouter d'élément DOM supplémentair */}         
                     <div onMouseOver={setLeftImg} onMouseOut={clearImg} className='leftBox'>
-                        <button className='btn-welcome'>Inscription</button>
+                        <Link to='/signup' className='btn-welcome'>Inscription</Link>
                     </div>
 
                     <div onMouseOver={setRightImg} onMouseOut={clearImg} className='rightBox'>
-                        <button className='btn-welcome'>Connexion</button>
+                        <Link to='/login' className='btn-welcome'>Connexion</Link>
                     </div>
                 </React.Fragment>
             )}
@@ -83,3 +87,12 @@ const Landing = () => {
 }
 
 export default Landing;
+
+
+
+
+
+
+
+
+

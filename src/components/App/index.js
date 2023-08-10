@@ -1,4 +1,11 @@
+// React
 import React from 'react';
+
+// React Route (BrowserRouter, Route, Routes) 
+// Redirect avec Navigate
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+// Css
 import '../../App.css';
 
 // Component
@@ -14,17 +21,8 @@ function App() {
   return (
     <div>
       <Header />
-
-      <Welcome />
       <Landing />
-      <SignUp />
-      <Login />
-           
       <Footer />
-
-
-      {/* Error Page */}
-      <ErrorPage />
     </div>
   );
 }
