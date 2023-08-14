@@ -52,8 +52,8 @@ const SignUp = () => {
 
 
   // methode confirmation
-  const FormConfirm = ( username, email, password, confirmPassword) => {
-    if (username !== '' && email !== '' && password !== '' && confirmPassword === password) {
+  const FormConfirm = () => {
+    if (username !== '' && email !== '' && password !== '' && confirmPassword !== '' && confirmPassword === password) {
       return <button>Inscription</button>;
     }
     return <button disabled>Inscription</button>;
