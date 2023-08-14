@@ -28,7 +28,7 @@ const SignUp = () => {
   }
   */
 
-  /*  Ma methode  */
+  /*  Ma methode pour récuperer la data */
   const handleChange = (event) => {
     // event.target fait référence à l'élément (champ de formulaire) qui a provoqué l'événement
     const { id, value } = event.target;
@@ -48,7 +48,17 @@ const SignUp = () => {
       default:
         break;
     }
-  }
+  };
+
+
+  // methode confirmation
+  const FormConfirm = ( username, email, password, confirmPassword) => {
+    if (username !== '' && email !== '' && password !== '' && confirmPassword === password) {
+      return <button>Inscription</button>;
+    }
+    return <button disabled>Inscription</button>;
+  };
+
 
 
   return (
@@ -80,6 +90,9 @@ const SignUp = () => {
                         <input onChange={handleChange} value={confirmPassword} type='password' id="confirmPassword" autoComplete='off' required/>
                         <label htmlFor='confirmPassword'>Confimer le mot de pass</label>                      
                       </div>
+
+                      {/* Confirm form methode */}
+                      {FormConfirm()}
                   </form>
               </div>
             </div>
