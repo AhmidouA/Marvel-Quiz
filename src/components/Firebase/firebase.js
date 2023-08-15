@@ -1,5 +1,7 @@
 // bdd firebase init
 // npm firebase
+import firebase from "firebase/app";
+import 'firebase/auth'
 import { initializeApp } from "firebase/app";
 // Api Auth
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
@@ -18,8 +20,8 @@ const firebaseConfig = {
 // Api
 class Firebase {
     constructor() {
-        initializeApp(firebaseConfig)
-        this.auth = getAuth()
+        firebase.initializeApp(firebaseConfig)
+        
         
     }
 
@@ -38,5 +40,5 @@ class Firebase {
     
     
 }
-
-export default Firebase;
+const auth = getAuth()
+export default {Firebase, auth};

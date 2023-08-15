@@ -1,6 +1,12 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
+
+import { FirebaseContext } from '../Firebase';
 
 const SignUp = () => {
+
+  // useContext pour récuper le provider (les data et methode) de Firebase
+  const firebase = useContext(FirebaseContext)
+  console.log("firebase>>>>>>", firebase)
 
   // data du form 
   const data = {
@@ -8,11 +14,12 @@ const SignUp = () => {
     email: '',
     password: '',
     confirmPassword: ''
-  }
+  };
 
 
   // State
   const [loginData, setloginData] = useState(data)
+  const [error, setError] = useState('')
 
   // Destructuring pour les values du form 
   const {username, email, password, confirmPassword} = loginData
@@ -59,6 +66,33 @@ const SignUp = () => {
     return <button disabled>Inscription</button>;
   };
 
+  // methode validation et l'envoi du formulaire dans la bdd
+  const handleSubmit = (event) => {
+    // on évite de faire refresh la page au moment ou on valide
+    event.preventDefault();
+
+     // on appelle la méthode signUpUser dans firebase et on lui passe les params (= les variables = state)
+    firebase.signUpUser(email, password)
+    .then(user => {
+      // on vide le form aprés validation
+      setloginData({...loginData});
+    })
+    .catch(error => {
+      setError(error);
+      // on vide le form meme quand y'a une erreur aprés validation
+      setloginData({...loginData});
+    });
+  }
+
+  // Gestion d'error
+  const errorMessage = () => {
+    if (!error) {
+      return null
+    }
+    return <span>{error.message}</span>
+  }
+
+  
 
 
   return (
@@ -69,8 +103,10 @@ const SignUp = () => {
             </div>
             <div className='formBoxRight'>
               <div className='formContent'>
+
+                {errorMessage()}
                 <h2>Inscription</h2>
-                  <form>                 
+                  <form onSubmit={handleSubmit}>                 
                       <div className='inputBox'>
                         <input onChange={handleChange} value={username} type='text' id="username" autoComplete='off' required/>
                         <label htmlFor='username'>Nom</label>                      
@@ -82,7 +118,7 @@ const SignUp = () => {
                       </div>
 
                       <div className='inputBox'>
-                        <input onChange={handleChange} value={password} type='text' id="password" autoComplete='off' required/>
+                        <input onChange={handleChange} value={password} type='password' id="password" autoComplete='off' required/>
                         <label htmlFor='password'>Mot de passe</label>                      
                       </div>
 
