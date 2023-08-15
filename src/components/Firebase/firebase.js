@@ -1,7 +1,5 @@
 // bdd firebase init
 // npm firebase
-import firebase from "firebase/app";
-import 'firebase/auth'
 import { initializeApp } from "firebase/app";
 // Api Auth
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
@@ -16,29 +14,27 @@ const firebaseConfig = {
     messagingSenderId: "227775404992",
     appId: "1:227775404992:web:12c3ee14d2187387bcc625"
   };
-
 // Api
 class Firebase {
     constructor() {
-        firebase.initializeApp(firebaseConfig)
-        
-        
+        initializeApp(firebaseConfig) 
+        this.auth = getAuth();
+              
     }
-
-    
+  
     // SignUp
     signUpUser = (email, password) => 
-    createUserWithEmailAndPassword(email, password)
+    createUserWithEmailAndPassword(this.auth, email, password)
 
     // Login
     loginUser = (email, password) => 
-    signInWithEmailAndPassword(email, password)
+    signInWithEmailAndPassword(this.auth, email, password)
 
     // SignOut
     signOutUser = () => 
-    signOut()
+    signOut(this.auth)
     
     
 }
-const auth = getAuth()
-export default {Firebase, auth};
+
+export default Firebase;

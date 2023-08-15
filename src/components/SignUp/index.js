@@ -75,12 +75,12 @@ const SignUp = () => {
     firebase.signUpUser(email, password)
     .then(user => {
       // on vide le form aprés validation
-      setloginData({...loginData});
+      setloginData({...data});
     })
     .catch(error => {
       setError(error);
       // on vide le form meme quand y'a une erreur aprés validation
-      setloginData({...loginData});
+      setloginData({...data});
     });
   }
 
