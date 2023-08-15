@@ -1,6 +1,12 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
+
+import { FirebaseContext } from '../Firebase';
 
 const SignUp = () => {
+
+  // useContext pour récuper le provider (les data et methode) de Firebase
+  const firebase = useContext(FirebaseContext)
+  console.log("firebase>>>>>>", firebase)
 
   // data du form 
   const data = {
@@ -8,7 +14,7 @@ const SignUp = () => {
     email: '',
     password: '',
     confirmPassword: ''
-  }
+  };
 
 
   // State
