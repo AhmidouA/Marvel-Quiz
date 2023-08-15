@@ -19,6 +19,7 @@ const SignUp = () => {
 
   // State
   const [loginData, setloginData] = useState(data)
+  const [error, setError] = useState('')
 
   // Destructuring pour les values du form 
   const {username, email, password, confirmPassword} = loginData
@@ -65,6 +66,22 @@ const SignUp = () => {
     return <button disabled>Inscription</button>;
   };
 
+  // methode validation et l'envoi du formulaire dans la bdd
+  const handleSubmit = (event) => {
+    // on évite de faire refresh la page au moment ou on valide
+    event.preventdefault();
+
+     // on appelle la méthode signUpUser dans firebase et on lui passe les params (= les variables = state)
+    firebase.signUpUser(email, password)
+    .then(user => {
+      setloginData({...data});
+    })
+    .catch(error => {
+      setError(error);
+    });
+  }
+
+  // Gestion d'error
 
 
   return (
@@ -76,7 +93,7 @@ const SignUp = () => {
             <div className='formBoxRight'>
               <div className='formContent'>
                 <h2>Inscription</h2>
-                  <form>                 
+                  <form onSubmit={handleSubmit}>                 
                       <div className='inputBox'>
                         <input onChange={handleChange} value={username} type='text' id="username" autoComplete='off' required/>
                         <label htmlFor='username'>Nom</label>                      
