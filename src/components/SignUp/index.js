@@ -69,19 +69,30 @@ const SignUp = () => {
   // methode validation et l'envoi du formulaire dans la bdd
   const handleSubmit = (event) => {
     // on évite de faire refresh la page au moment ou on valide
-    event.preventdefault();
+    event.preventDefault();
 
      // on appelle la méthode signUpUser dans firebase et on lui passe les params (= les variables = state)
     firebase.signUpUser(email, password)
     .then(user => {
-      setloginData({...data});
+      // on vide le form aprés validation
+      setloginData({...loginData});
     })
     .catch(error => {
       setError(error);
+      // on vide le form meme quand y'a une erreur aprés validation
+      setloginData({...loginData});
     });
   }
 
   // Gestion d'error
+  const errorMessage = () => {
+    if (!error) {
+      return null
+    }
+    return <span>{error.message}</span>
+  }
+
+  
 
 
   return (
@@ -92,6 +103,8 @@ const SignUp = () => {
             </div>
             <div className='formBoxRight'>
               <div className='formContent'>
+
+                {errorMessage()}
                 <h2>Inscription</h2>
                   <form onSubmit={handleSubmit}>                 
                       <div className='inputBox'>
@@ -105,7 +118,7 @@ const SignUp = () => {
                       </div>
 
                       <div className='inputBox'>
-                        <input onChange={handleChange} value={password} type='text' id="password" autoComplete='off' required/>
+                        <input onChange={handleChange} value={password} type='password' id="password" autoComplete='off' required/>
                         <label htmlFor='password'>Mot de passe</label>                      
                       </div>
 
