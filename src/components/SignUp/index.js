@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { FirebaseContext } from '../Firebase';
 
-const SignUp = (props) => {
+const SignUp = () => {
 
   // redirection 
   // Le useNavigatecrochet renvoie une fonction qui permet de naviguer par programmation, 
