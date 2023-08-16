@@ -105,7 +105,7 @@ const SignUp = () => {
     });
   }
 
-  // Gestion d'error
+  // Gestion d'error (message)
   const errorMessage = () => {
     if (!error) {
       return null

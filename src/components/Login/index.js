@@ -1,16 +1,30 @@
 // React
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 
 // Utilisez Link pour un lien sans refreshir
 // Utilisez le hooks useNavigate pour rediriger l'utilisateur
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+//bdd
+import { FirebaseContext } from '../Firebase';
+
+
 
 const Login = () => {
+
+  // useContext pour récuper le provider (les data et methode) de Firebase
+  const firebase = useContext(FirebaseContext)
+
+  // redirection
+  const redirectPage = useNavigate()
+
+
 
   // state pour la connexion
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
   const [btn, setbtn] = useState(false) // pour faire apparaitre le button de confirmation
+  const [error, setError] = useState('') // message d'erreur
 
 
   // methode pour l'event email et password
@@ -41,7 +55,8 @@ const Login = () => {
 
     // chaque fois que la valeur de password ou email change, le code à l'intérieur du useEffect sera exécuté. 
     // Plus précisément, il vérifie si la longueur du mot de passe est supérieure à 5 caractères et si 
-  }, [password, email]) 
+    // l'email n'est pas vide, puis met à jour l'état du bouton (setbtn(true)) en conséquence.
+  }, [password, email, btn]) 
 
   // Methode pour faire apparaitre le btn selon la condition
   const btnDisplay = () => {
@@ -50,10 +65,41 @@ const Login = () => {
     }
     return <button>Connexion</button>
   }
+
+
+  // confirmation du form de conenxion
+  const handleOnSubmit = (event) => {
+    event.preventDefault();
+
+    // console.log("email", email)
+    // console.log("password", password)
+
+    firebase.loginUser(email, password)
+    .then(user => {
+      // on lui vide les variable aprés connexion (facultatif)
+      setEmail('')
+      setPassword('')
+      redirectPage('/welcome')
+
+    })
+    .catch (error => {
+      // afficher le message d'erreur
+      setError(error)
+      // on lui vide les variable afin qu'il re essaye de se connecter
+      setEmail('')
+      setPassword('')
+
+    })
+  }
+
+  // Gestion d'error (message)
+  const errorMessage = () => {
+    if (!error) {
+      return null
+    }
+    return <span>Email ou Mot de passe incorrect</span>
+  }
    
-
-
-
 
   return (
     <div className='signUpLoginBox'>
@@ -64,8 +110,10 @@ const Login = () => {
         </div>
         <div className='formBoxRight'>
               <div className='formContent'>
+
+                {errorMessage()}
                 <h2>Connexion</h2>
-                  <form>                                   
+                  <form onSubmit={handleOnSubmit}>                                   
 
                       <div className='inputBox'>
                         <input onChange={handleEmail} value={email} type='email' autoComplete='off' required/>
