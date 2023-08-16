@@ -1,4 +1,5 @@
 import React, {useState, useContext} from 'react'
+import { Link } from 'react-router-dom';
 
 import { FirebaseContext } from '../Firebase';
 
@@ -130,6 +131,9 @@ const SignUp = () => {
                       {/* Confirm form methode */}
                       {FormConfirm()}
                   </form>
+                  <div className='linkContainer'>
+                    <Link className='simpleLink' to='/login'>Déjé Inscrit ? Connextez-vous.</Link>
+                  </div>
               </div>
             </div>
         </div>       
