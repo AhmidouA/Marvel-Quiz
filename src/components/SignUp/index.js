@@ -1,13 +1,23 @@
 import React, {useState, useContext} from 'react'
-import { Link } from 'react-router-dom';
+
+// le composant Link permet à votre application de gérer la navigation sans recharger complètement 
+// la page, ce qui améliore les performances et l'expérience utilisateur.
+// Utilisez le hooks useNavigate pour rediriger l'utilisateur
+import { Link, useNavigate } from 'react-router-dom';
 
 import { FirebaseContext } from '../Firebase';
 
-const SignUp = () => {
+const SignUp = (props) => {
+
+  // redirection 
+  // Le useNavigatecrochet renvoie une fonction qui permet de naviguer par programmation, 
+  //par exemple dans un effet :
+  const redirectPage = useNavigate()
+
 
   // useContext pour récuper le provider (les data et methode) de Firebase
   const firebase = useContext(FirebaseContext)
-  console.log("firebase>>>>>>", firebase)
+  // console.log("firebase>>>>>>", firebase)
 
   // data du form 
   const data = {
@@ -72,11 +82,21 @@ const SignUp = () => {
     // on évite de faire refresh la page au moment ou on valide
     event.preventDefault();
 
+    // Réinitialiser l'erreur à une valeur vide
+    setError(''); // Réinitialiser l'erreur à une valeur vide
+
      // on appelle la méthode signUpUser dans firebase et on lui passe les params (= les variables = state)
     firebase.signUpUser(email, password)
     .then(user => {
       // on vide le form aprés validation
       setloginData({...data});
+
+      // Réinitialiser l'erreur à une valeur vide
+      setError('');
+
+      // une fois le form validé on le redirege vers la page accueil grace au hooks useNavigate
+      redirectPage('/welcome')
+
     })
     .catch(error => {
       setError(error);
