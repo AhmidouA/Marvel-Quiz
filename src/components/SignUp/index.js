@@ -5,7 +5,12 @@ import React, {useState, useContext} from 'react'
 // Utilisez le hooks useNavigate pour rediriger l'utilisateur
 import { Link, useNavigate } from 'react-router-dom';
 
+// firebase Context 
 import { FirebaseContext } from '../Firebase';
+
+// firestore pour la bdd (collection) pour enregistrer
+import { setDoc } from 'firebase/firestore';
+
 
 const SignUp = () => {
 
@@ -87,7 +92,22 @@ const SignUp = () => {
 
      // on appelle la méthode signUpUser dans firebase et on lui passe les params (= les variables = state)
     firebase.signUpUser(email, password)
-    .then(user => {
+
+    .then ((authUser) => {
+      // pour récupérer l'id de l'utilisateur authentifié depuis le Firebase.js (methode user)
+      const userID = authUser.user.uid;
+      console.log("userID>>>>>", userID)
+
+      // on crée par la même occasion dans une table (collection)
+      const userRef = firebase.user(userID);
+
+      return setDoc(userRef, {
+        username: username,
+        email: email,
+      });
+
+    })
+    .then((user) => {
       // on vide le form aprés validation
       setloginData({...data});
 

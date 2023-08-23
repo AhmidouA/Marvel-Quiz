@@ -4,6 +4,9 @@ import { initializeApp } from "firebase/app";
 // Api Auth
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
 
+// gestion des tables (collection)
+import { getFirestore, doc } from 'firebase/firestore'
+
 
 // Your web app's Firebase configuration (google firebase params)
 const firebaseConfig = {
@@ -25,31 +28,44 @@ class Firebase {
         Cet objet d'authentification est une interface qui fournit des méthodes pour gérer 
         l'authentification des utilisateurs dans votre application */
         this.auth = getAuth();
+
+        // gestion de la base avec Firebase/firestore
+        this.db = getFirestore()
               
     }
   
     // SignUp
-    signUpUser = (email, password) => 
+    signUpUser = (email, password) => {
         // Crée un nouvel utilisateur avec l'adresse e-mail et le mot de passe fournis
-        createUserWithEmailAndPassword(this.auth, email, password)
+        return createUserWithEmailAndPassword(this.auth, email, password)
+    };
 
     // Login
-    loginUser = (email, password) => 
+    loginUser = (email, password) => {
         // Connecte un utilisateur avec l'adresse e-mail et le mot de passe fournis
-        signInWithEmailAndPassword(this.auth, email, password)
+        return signInWithEmailAndPassword(this.auth, email, password)
+    };
 
     // SignOut
-    signOutUser = () => 
+    signOutUser = () => {
         // Déconnecte l'utilisateur actuellement connecté
-        signOut(this.auth)
-       
+        return signOut(this.auth)
+    };
+
     // recupérer le mot de passe
-    passwordReset = (email) => (
+    passwordReset = (email) => { 
         // envoi un mail a utilisateur avec l'adresse e-mail fournis
-        sendPasswordResetEmail(this.auth, email)
-    )
+        return sendPasswordResetEmail(this.auth, email)
+    };
     
-    
+    // gestion de la base de donnée des user
+    // le params est l'userId = uid
+    user = (uid) => { 
+        console.log("Le userId Firebase>>>>>", uid)
+        //  Vous devez utiliser doc() de Firebase Firestore pour obtenir une référence à un document spécifique dans une collection
+        return doc(this.db, `users/${uid}`)
+        
+    }
 }
 
 export default Firebase;
