@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 //bdd
 import { FirebaseContext } from '../Firebase';
 
+
 const Logout = () => {
 
   // useContext pour récuper le provider (les data et methode) de Firebase
