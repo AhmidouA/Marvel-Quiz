@@ -16,6 +16,7 @@ import Welcome from '../Welcome';
 import Login from '../Login';
 import SignUp from '../SignUp';
 import ErrorPage from '../ErrorPage';
+import ForgotPassword from '../ForgotPassword';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path='/welcome' element={<Welcome />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
+            <Route path='/forgotpassword' element={<ForgotPassword />} />
 
             {/* Error Page:  L'etoile * veut dire All page non trouvé */}
             <Route path='*' element={<ErrorPage />} />                        

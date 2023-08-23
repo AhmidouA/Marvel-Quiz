@@ -22,7 +22,7 @@ const Welcome = () => {
   const firebase = useContext(FirebaseContext)
 
   // state Session
-  const [userSession, setuserSession] = useState(null);
+  const [userSession, setUserSession] = useState(null);
 
   // methode pour la session
   useEffect(() => {
@@ -30,7 +30,7 @@ const Welcome = () => {
     // La méthode recommandée pour obtenir l'utilisateur actuel consiste à définir un observateur sur l'objet Auth
     let listner = firebase.auth.onAuthStateChanged(user => {
       if (user) {
-        return setuserSession(user)
+        return setUserSession(user)
       }
       redirectPage('/')
     })

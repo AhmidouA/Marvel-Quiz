@@ -2,7 +2,7 @@
 // npm firebase
 import { initializeApp } from "firebase/app";
 // Api Auth
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
 
 
 // Your web app's Firebase configuration (google firebase params)
@@ -30,18 +30,24 @@ class Firebase {
   
     // SignUp
     signUpUser = (email, password) => 
-    // Crée un nouvel utilisateur avec l'adresse e-mail et le mot de passe fournis
-    createUserWithEmailAndPassword(this.auth, email, password)
+        // Crée un nouvel utilisateur avec l'adresse e-mail et le mot de passe fournis
+        createUserWithEmailAndPassword(this.auth, email, password)
 
     // Login
     loginUser = (email, password) => 
-    // Connecte un utilisateur avec l'adresse e-mail et le mot de passe fournis
-    signInWithEmailAndPassword(this.auth, email, password)
+        // Connecte un utilisateur avec l'adresse e-mail et le mot de passe fournis
+        signInWithEmailAndPassword(this.auth, email, password)
 
     // SignOut
     signOutUser = () => 
-    // Déconnecte l'utilisateur actuellement connecté
-    signOut(this.auth)
+        // Déconnecte l'utilisateur actuellement connecté
+        signOut(this.auth)
+       
+    // recupérer le mot de passe
+    passwordReset = (email) => (
+        // envoi un mail a utilisateur avec l'adresse e-mail fournis
+        sendPasswordResetEmail(this.auth, email)
+    )
     
     
 }
