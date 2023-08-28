@@ -85,14 +85,11 @@ class Quiz extends Component {
   componentDidMount() {
     this.loadQuestions(this.state.levelNames[0])
 
-    console.log("username Toast>>>>", this.props.userData.username)
+    console.log("username Toast>>>>", this.props.userData.username)   
 
-    // toast message d'acceuil
-    if(this.props.userData.username) {
-      this.WelcomeMessage(this.props.userData.username)
-    }
-
-    
+    // if (this.props.userData.username) {
+    //     this.WelcomeMessage(this.props.userData.username);
+    //   }; 
     
   };
 
@@ -115,9 +112,15 @@ class Quiz extends Component {
       options: this.state.storedQuestion[this.state.idQuestion].options,
       userAnswer: null,
       btnDisabled: true
-    });
-   
-  } 
+    });  
+  };
+
+  // Toast message d'acceuil
+  // Vérifiez si le nom d'utilisateur précédent était vide et le nouveau nom d'utilisateur est défini
+  if (!prevProps.userData.username && this.props.userData.username) {
+    // Appelez la méthode WelcomeMessage pour afficher le message de bienvenue
+    this.WelcomeMessage(this.props.userData.username);
+  }
 };
 
 
