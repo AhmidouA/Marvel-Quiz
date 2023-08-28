@@ -182,7 +182,7 @@ class Quiz extends Component {
 
   render() {
 
-    // button finsh
+    // button suivant ou terminer
     const finshButton = () => {
       if (this.state.idQuestion < this.state.maxQuestion - 1) {
         return "Suivant"
@@ -215,7 +215,7 @@ class Quiz extends Component {
   
           {/* Component de levels et progresse import */}
           <Levels />
-          <ProgressBar />
+          <ProgressBar idQuestions={this.state.idQuestion} maxQuestions={this.state.maxQuestion}/>
   
   
           <h2>{this.state.questions}</h2>  
