@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 // npm react-toastify pour les notifacation et Toaster
 import { ToastContainer, toast } from 'react-toastify';
@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Levels from '../Levels'
 import ProgressBar from '../ProgressBar'
 import {QuizMarvel} from '../QuizMarvel'
+import QuizOver from '../QuizOver';
 
 
 class Quiz extends Component {
@@ -25,6 +26,7 @@ class Quiz extends Component {
     btnDisabled: true,
     userAnswer: null,
     userScore: 0,
+    quizEnd: false,
 
   };
 
@@ -115,24 +117,15 @@ class Quiz extends Component {
       btnDisabled: true
     });
    
-  }
-
-  
+  } 
 };
 
-
-  // methode pour valider la reponse
-  submitAnswer = (answer) => {
-    this.setState({
-      userAnswer: answer,
-      btnDisabled: false
-    })
-  };
 
   nextQuestion = () => {
     // on ne depasse le 10 questions
     if (this.state.idQuestion === this.state.maxQuestion -1 ) {
       // End
+      this.gameOver()
      
     } else {
       this.setState((prevState) => ({
@@ -168,10 +161,25 @@ class Quiz extends Component {
         progress: undefined,
         theme: "colored",
         });
-
     }
+  };
 
+  // methode pour valider la reponse
+  submitAnswer = (answer) => {
+    this.setState({
+      userAnswer: answer,
+      btnDisabled: false
+    })
+  };
+
+  // methode fin de quiz (questions) (State)
+  gameOver = () => {
+    this.setState({
+      quizEnd: true
+    })
   }
+
+
 
 
 
@@ -187,27 +195,38 @@ class Quiz extends Component {
       ) 
     })
 
-    return (
-      <div>
-        {/* <h2>Bienvenu: <span style={{color: 'blue'}}>{username}</span></h2>  ==> Ancien code*/}
+    // methode fin de quiz
+    const gameEnd = () => {
+      if (this.state.quizEnd) {
+        return <QuizOver />
+      }
+      return (
+        <Fragment>
+          {/* <h2>Bienvenu: <span style={{color: 'blue'}}>{username}</span></h2>  ==> Ancien code*/}
+  
+          {/* J'affcihe mon toast de bienvenu (voir methode welcomeMessage)  */}
+          <ToastContainer />
+  
+  
+          {/* Component de levels et progresse import */}
+          <Levels />
+          <ProgressBar />
+  
+  
+          <h2>{this.state.questions}</h2>  
+          {/* Les options des question  */}
+          {displayOptions}
+  
+          <button disabled={this.state.btnDisabled} onClick={this.nextQuestion}className='btnSubmit'>Suivant</button>
+      </Fragment>
+  
+      )
+    }
 
-        {/* J'affcihe mon toast de bienvenu (voir methode welcomeMessage)  */}
-        <ToastContainer />
 
 
-        {/* Component de levels et progresse import */}
-        <Levels />
-        <ProgressBar />
-
-
-        <h2>{this.state.questions}</h2>  
-        {/* Les options des question  */}
-        {displayOptions}
-
-        <button disabled={this.state.btnDisabled} onClick={this.nextQuestion}className='btnSubmit'>Suivant</button>
-    </div>
-
-    )
+    // return du 
+    return gameEnd(); 
   }
 }
 
