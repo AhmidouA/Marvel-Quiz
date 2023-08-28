@@ -12,12 +12,16 @@ class Quiz extends Component {
     levelNames: ["debutant", "confirme", "expert"],
     storedQuestion: [],
     questions: null,
+    maxQuestion: 10,
+    idQuestion: 0,
     options:[],
     btnDisabled: true,
-    userAnswer: null
-
+    userAnswer: null,
+    userScore: 0
 
   };
+
+  storedDataRef = React.createRef();
 
 
   // methode chercher les question
@@ -28,6 +32,9 @@ class Quiz extends Component {
     console.log("fetchedArrayQuizQuestion", fetchedArrayQuizQuestion)
 
     if (fetchedArrayQuizQuestion.length >= 10) {
+
+      // je met toutes les question avec les rep dans mon ref
+      this.storedDataRef.current = fetchedArrayQuizQuestion;
 
       // methode map pour cacher les rep sur la console avec la methode map
       // on prends simplement les question sans les rep
@@ -59,11 +66,25 @@ class Quiz extends Component {
   componentDidUpdate(prevProps, prevState) {
   if (this.state.storedQuestion !== prevState.storedQuestion) {
     this.setState({
-      questions: this.state.storedQuestion[0].questions,
-      options: this.state.storedQuestion[0].options
+      questions: this.state.storedQuestion[this.state.idQuestion].questions,
+      options: this.state.storedQuestion[this.state.idQuestion].options
+    });
+  }
+
+  // une fois une reponse valider on remet une nouvelle question 
+  // ensuite on remet le tableau a 0 pour les reponse choisie et le button pas visible
+  if (this.state.idQuestion !== prevState.idQuestion) {
+    this.setState({
+      // on recupére une nouvelle question
+      questions: this.state.storedQuestion[this.state.idQuestion].questions,
+      // on recupére des nouvelles options
+      options: this.state.storedQuestion[this.state.idQuestion].options,
+      userAnswer: null,
+      btnDisabled: true
     });
   }
 };
+
 
   // methode pour valider la reponse
   submitAnswer = (answer) => {
@@ -71,15 +92,32 @@ class Quiz extends Component {
       userAnswer: answer,
       btnDisabled: false
     })
+  };
 
+  nextQuestion = () => {
+    // on ne depasse le 10 questions
+    if (this.state.idQuestion === this.state.maxQuestion -1 ) {
+      // End
+     
+    } else {
+      this.setState((prevState) => ({
+        idQuestion: prevState.idQuestion +1
+      }))
+    }
+    
+    const goodAnswer = this.storedDataRef.current[this.state.idQuestion].answer
+    if (this.state.userAnswer === goodAnswer) {
+      this.setState((prevState) => ({
+        userScore: prevState.userScore +1
+      }))
+    }
   }
-
 
 
 
   render() {
     // console.log("props>>>>", this.props)
-    const {username, email } = this.props.userData;
+    const {username } = this.props.userData;
 
 
     // methode map pour affciher les options de reponse 
@@ -102,7 +140,7 @@ class Quiz extends Component {
         {/* Les options des question  */}
         {displayOptions}
 
-        <button disabled={this.state.btnDisabled} className='btnSubmit'>Suivant</button>
+        <button disabled={this.state.btnDisabled} onClick={this.nextQuestion}className='btnSubmit'>Suivant</button>
     </div>
 
     )
