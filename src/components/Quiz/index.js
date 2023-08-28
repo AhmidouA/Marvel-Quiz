@@ -84,17 +84,10 @@ class Quiz extends Component {
   // Montage de composant 
   componentDidMount() {
     this.loadQuestions(this.state.levelNames[0])
-
-    console.log("username Toast>>>>", this.props.userData.username)
-
-    // toast message d'acceuil
-    if(this.props.userData.username) {
-      this.WelcomeMessage(this.props.userData.username)
-    }
-
-    
     
   };
+
+
 
   // mise a jour du composant
   componentDidUpdate(prevProps, prevState) {
@@ -115,9 +108,15 @@ class Quiz extends Component {
       options: this.state.storedQuestion[this.state.idQuestion].options,
       userAnswer: null,
       btnDisabled: true
-    });
-   
-  } 
+    });  
+  };
+
+  // Toast message d'acceuil
+  // Vérifiez si le nom d'utilisateur précédent était vide et le nouveau nom d'utilisateur est défini
+  if (!prevProps.userData.username && this.props.userData.username) {
+    // Appelez la méthode WelcomeMessage pour afficher le message de bienvenue
+    this.WelcomeMessage(this.props.userData.username);
+  }
 };
 
 
@@ -181,9 +180,15 @@ class Quiz extends Component {
 
 
 
-
-
   render() {
+
+    // button suivant ou terminer
+    const finshButton = () => {
+      if (this.state.idQuestion < this.state.maxQuestion - 1) {
+        return "Suivant"
+      }
+      return "Terminer"
+    }
 
     // methode map pour affciher les options de reponse 
     const displayOptions = this.state.options.map((option, indexOption) => {
@@ -210,14 +215,15 @@ class Quiz extends Component {
   
           {/* Component de levels et progresse import */}
           <Levels />
-          <ProgressBar />
+          <ProgressBar idQuestions={this.state.idQuestion} maxQuestions={this.state.maxQuestion}/>
   
   
           <h2>{this.state.questions}</h2>  
           {/* Les options des question  */}
           {displayOptions}
-  
-          <button disabled={this.state.btnDisabled} onClick={this.nextQuestion}className='btnSubmit'>Suivant</button>
+
+          
+          <button disabled={this.state.btnDisabled} onClick={this.nextQuestion}className='btnSubmit'>{finshButton()}</button>
       </Fragment>
   
       )
