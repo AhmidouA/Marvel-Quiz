@@ -84,14 +84,10 @@ class Quiz extends Component {
   // Montage de composant 
   componentDidMount() {
     this.loadQuestions(this.state.levelNames[0])
-
-    console.log("username Toast>>>>", this.props.userData.username)   
-
-    // if (this.props.userData.username) {
-    //     this.WelcomeMessage(this.props.userData.username);
-    //   }; 
     
   };
+
+
 
   // mise a jour du composant
   componentDidUpdate(prevProps, prevState) {
@@ -184,9 +180,15 @@ class Quiz extends Component {
 
 
 
-
-
   render() {
+
+    // button finsh
+    const finshButton = () => {
+      if (this.state.idQuestion < this.state.maxQuestion - 1) {
+        return "Suivant"
+      }
+      return "Terminer"
+    }
 
     // methode map pour affciher les options de reponse 
     const displayOptions = this.state.options.map((option, indexOption) => {
@@ -219,8 +221,9 @@ class Quiz extends Component {
           <h2>{this.state.questions}</h2>  
           {/* Les options des question  */}
           {displayOptions}
-  
-          <button disabled={this.state.btnDisabled} onClick={this.nextQuestion}className='btnSubmit'>Suivant</button>
+
+          
+          <button disabled={this.state.btnDisabled} onClick={this.nextQuestion}className='btnSubmit'>{finshButton()}</button>
       </Fragment>
   
       )
