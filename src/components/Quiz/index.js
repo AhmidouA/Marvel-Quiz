@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
 
+// npm react-toastify pour les notifacation et Toaster
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 // Component
 import Levels from '../Levels'
 import ProgressBar from '../ProgressBar'
 import {QuizMarvel} from '../QuizMarvel'
 
+
 class Quiz extends Component {
+  
 
   // state 
   state = {
@@ -17,7 +24,7 @@ class Quiz extends Component {
     options:[],
     btnDisabled: true,
     userAnswer: null,
-    userScore: 0
+    userScore: 0,
 
   };
 
@@ -57,9 +64,34 @@ class Quiz extends Component {
 
   };
 
+  // message d'accueil avec un toast
+   WelcomeMessage = (name) => {
+      toast.info(`🚀 🚀 Bienvenu ${name}!!!`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+        });
+    }
+    
+
   // Montage de composant 
   componentDidMount() {
     this.loadQuestions(this.state.levelNames[0])
+
+    console.log("username Toast>>>>", this.props.userData.username)
+
+    // toast message d'acceuil
+    if(this.props.userData.username) {
+      this.WelcomeMessage(this.props.userData.username)
+    }
+
+    
+    
   };
 
   // mise a jour du composant
@@ -82,7 +114,10 @@ class Quiz extends Component {
       userAnswer: null,
       btnDisabled: true
     });
+   
   }
+
+  
 };
 
 
@@ -109,16 +144,38 @@ class Quiz extends Component {
     if (this.state.userAnswer === goodAnswer) {
       this.setState((prevState) => ({
         userScore: prevState.userScore +1
+        
       }))
+      toast.success('✅ Bravo, Bonne réponse +1 !!!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });    
+    } else {
+
+      toast.error('❌ Raté, Mauvaise réponse !!!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+
     }
+
   }
 
 
 
   render() {
-    // console.log("props>>>>", this.props)
-    const {username } = this.props.userData;
-
 
     // methode map pour affciher les options de reponse 
     const displayOptions = this.state.options.map((option, indexOption) => {
@@ -132,9 +189,16 @@ class Quiz extends Component {
 
     return (
       <div>
-        <h2>Pseudo: <span style={{color: 'blue'}}>{username}</span></h2>
+        {/* <h2>Bienvenu: <span style={{color: 'blue'}}>{username}</span></h2>  ==> Ancien code*/}
+
+        {/* J'affcihe mon toast de bienvenu (voir methode welcomeMessage)  */}
+        <ToastContainer />
+
+
+        {/* Component de levels et progresse import */}
         <Levels />
         <ProgressBar />
+
 
         <h2>{this.state.questions}</h2>  
         {/* Les options des question  */}
