@@ -42,7 +42,7 @@ class Quiz extends Component {
 
     if (fetchedArrayQuizQuestion.length >= 10) {
 
-      // je met toutes les question avec les rep dans mon ref
+      // je met toutes les question avec les rep dans mon un ref pour comparer et le recuperer dans QuizOver
       this.storedDataRef.current = fetchedArrayQuizQuestion;
 
       // methode map pour cacher les rep sur la console avec la methode map
@@ -202,8 +202,8 @@ class Quiz extends Component {
 
     // methode fin de quiz
     const gameEnd = () => {
-      if (this.state.quizEnd) {
-        return <QuizOver />
+      if (!this.state.quizEnd) {
+        return <QuizOver ref={this.storedDataRef}/>
       }
       return (
         <Fragment>
