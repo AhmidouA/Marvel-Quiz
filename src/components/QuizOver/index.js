@@ -29,8 +29,26 @@ const QuizOver = React.forwardRef((props, ref) => {
     // je déclare ref comme dépendance
   }, [ref]);
 
-  //
+
+  // const pour stocker la moyenne (50%)
   const avergeGrade = maxQuestions / 2;
+  
+
+  // condition pour Restart le Quiz du début ou juste le niveau quand on a échoué 
+  if (userScore < avergeGrade) {   // si le score de user n'est pas d'au moins la moyenne
+
+    setTimeout(() => {       
+
+        // 1er condition 
+        // on le fait revenir au debut du Quizz quand il a échoué (recommencé tout le QUIZ )
+        loadLevelQuestions(0)
+
+        // 2em condition 
+        // Recommencé juste le niveau 
+        // loadLevelQuestions(quizLevel)
+    }, 3000); // 3ses
+  }
+  
 
   // methode pour la décision du Nextlevel ou pas
   const decision = () => {
@@ -110,6 +128,7 @@ const QuizOver = React.forwardRef((props, ref) => {
     return (
       <tr>
         <td colSpan="3">
+            <div className='loader'></div>
           <p style={{ textAlign: "center", color: "red" }}>
             Pas de réponses...
           </p>
