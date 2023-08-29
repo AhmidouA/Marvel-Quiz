@@ -48,7 +48,7 @@ const Welcome = () => {
 
         // recupéreration de la data de fireBase (firestore)
         // Utilisation de la méthode user(user.uid) pour récupérer un document spécifique dans Firestore
-        console.log("user ID>>>>>", user.uid);
+        // console.log("user ID>>>>>", user.uid);
 
         // Obtenez la référence au document
         const userDocRef = firebase.user(user.uid); 

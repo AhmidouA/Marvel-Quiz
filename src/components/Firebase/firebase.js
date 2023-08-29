@@ -61,7 +61,7 @@ class Firebase {
     // gestion de la base de donnée des user
     // le params est l'userId = uid
     user = (uid) => { 
-        console.log("Le userId Firebase>>>>>", uid)
+        // console.log("Le userId Firebase>>>>>", uid)
         //  Vous devez utiliser doc() de Firebase Firestore pour obtenir une référence à un document spécifique dans une collection
         return doc(this.db, `users/${uid}`)
         
