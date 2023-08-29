@@ -14,26 +14,31 @@ import QuizOver from '../QuizOver';
 
 class Quiz extends Component {
   
+  constructor(props) {
+    super(props)
 
-  // state 
-  state = {
-    levelNames: ["debutant", "confirme", "expert"],
-    quizLevel: 0,
-    storedQuestion: [],
-    questions: null,
-    maxQuestion: 10,
-    idQuestion: 0,
-    options:[],
-    btnDisabled: true,
-    userAnswer: null,
-    userScore: 0,
-    quizEnd: false,
-    percent: 0
+    // state 
+    this.initialState = {
+      levelNames: ["debutant", "confirme", "expert"],
+      quizLevel: 0,
+      storedQuestion: [],
+      questions: null,
+      maxQuestion: 10,
+      idQuestion: 0,
+      options:[],
+      btnDisabled: true,
+      userAnswer: null,
+      userScore: 0,
+      quizEnd: false,
+      percent: 0
 
-  };
+    };
+  
+    this.state = this.initialState
+    this.storedDataRef = React.createRef();
 
-  storedDataRef = React.createRef();
 
+  }
 
   // methode chercher les question
   loadQuestions = (level) => {
@@ -203,6 +208,18 @@ class Quiz extends Component {
   }
 
 
+  // Cette méthode est utilisée pour charger les questions d'un niveau spécifique du quiz.
+  // elle est exporté sur le Component QuizOver
+  loadLevelQuestions = (params) => {
+    // Réinitialise l'état à ses valeurs initiales et met à jour le niveau du quiz.
+    this.setState({...this.initialState, quizLevel: params})
+
+    // Ensuite, elle appelle une autre méthode pour charger les questions en fonction du niveau.
+    // comme la L91 => Montage d'un nouveau compsant avec un nouveau level
+    this.loadQuestions(this.state.levelNames[params])
+  }
+
+
   render() {
 
     // button suivant ou terminer
@@ -236,6 +253,7 @@ class Quiz extends Component {
             maxQuestions={this.state.maxQuestion}
             quizLevel={this.state.quizLevel}
             percent={this.state.percent}
+            loadLevelQuestions={this.loadLevelQuestions}
           />
         );
       }
