@@ -18,6 +18,7 @@ class Quiz extends Component {
   // state 
   state = {
     levelNames: ["debutant", "confirme", "expert"],
+    quizLevel: 0,
     storedQuestion: [],
     questions: null,
     maxQuestion: 10,
@@ -171,12 +172,35 @@ class Quiz extends Component {
     })
   };
 
+
+  // methode pourcentage 
+  getPercentage = (maxQuest, ourScore) => {
+    return (ourScore / maxQuest ) * 100
+}
+
   // methode fin de quiz (questions) (State)
   gameOver = () => {
-    this.setState({
-      quizEnd: true
-    })
+
+    // le pourcentage du score de l'user
+    const userPercentage = this.getPercentage(this.state.maxQuestion, this.state.userScore)
+
+    // condition pour savoir si il a la moyenne
+    if (!userPercentage >= 50 ) {
+      // si il n'a pas la moyenne on lui donne juste son Pourcentage et la page QuizOver avec le recape
+        this.setState({
+          percent: userPercentage,
+          quizEnd: true
+        })     
+    }
+    // si il a la moyenne on lui donne son Pourcentage et la page QuizOver avec le recape plus le button pour le prochain level
+      return this.setState({
+        quizLevel: this.state.quizLevel + 1,
+        percent: userPercentage,
+        quizEnd: true
+      })
   }
+
+  
 
 
 
