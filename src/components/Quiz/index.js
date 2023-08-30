@@ -86,7 +86,8 @@ class Quiz extends Component {
     }
     
 
-  // Montage de composant 
+
+                                                // Montage de composant 
   componentDidMount() {
     this.loadQuestions(this.state.levelNames[0])
     
@@ -94,7 +95,7 @@ class Quiz extends Component {
 
 
 
-  // mise a jour du composant
+                                                  // mise a jour du composant
   componentDidUpdate(prevProps, prevState) {
   if (this.state.storedQuestion !== prevState.storedQuestion) {
     this.setState({
@@ -117,13 +118,25 @@ class Quiz extends Component {
     });  
   };
 
+
+
+  // condition pour avoir userScore exact
+   if (this.state.quizEnd !== prevState.quizEnd) {
+    // console.log("UserScore>>>", this.state.userScore)
+
+    // le pourcentage du score de l'user
+    const userPercentage = this.getPercentage(this.state.maxQuestion, this.state.userScore)
+    this.gameOver(userPercentage)
+   }
   
   // Toast message d'acceuil
   // Vérifiez si le nom d'utilisateur précédent était vide et le nouveau nom d'utilisateur est défini
   if (!prevProps.userData.username && this.props.userData.username) {
     // Appelez la méthode WelcomeMessage pour afficher le message de bienvenue
     this.WelcomeMessage(this.props.userData.username);
-  }
+  };
+
+
 };
 
 
@@ -131,7 +144,9 @@ class Quiz extends Component {
     // on ne depasse le 10 questions
     if (this.state.idQuestion === this.state.maxQuestion -1 ) {
       // End
-      this.gameOver()
+      this.setState({
+        quizEnd: true
+      })
      
     } else {
       this.setState((prevState) => ({
@@ -185,25 +200,20 @@ class Quiz extends Component {
 }
 
   // methode fin de quiz (questions) (State)
-  gameOver = () => {
+  gameOver = (userPercent) => {
 
-    // le pourcentage du score de l'user
-    const userPercentage = this.getPercentage(this.state.maxQuestion, this.state.userScore)
-
-
+    
     // condition pour savoir si il a la moyenne
-    if (!userPercentage >= 50 ) {
+    if (!userPercent >= 50 ) {
       // si il n'a pas la moyenne on lui donne juste son Pourcentage et la page QuizOver avec le recape
         this.setState({
-          percent: userPercentage,
-          quizEnd: true
+          percent: userPercent,
         })     
     }
     // si il a la moyenne on lui donne son Pourcentage et la page QuizOver avec le recape plus le button pour le prochain level
       return this.setState({
         quizLevel: this.state.quizLevel + 1,
-        percent: userPercentage,
-        quizEnd: true
+        percent: userPercent,
       })
   }
 
