@@ -42,16 +42,17 @@ const QuizOver = React.forwardRef((props, ref) => {
         // 1er condition 
         // on le fait revenir au debut du Quizz quand il a échoué (recommencé tout le QUIZ )
         loadLevelQuestions(0)
+        
 
         // 2em condition 
         // Recommencé juste le niveau 
         // loadLevelQuestions(quizLevel)
-    }, 3000); // 3ses
+    }, 5000); // 3ses
   }
   
 
   // methode pour la décision du Nextlevel ou pas
-  const decision = () => {
+  const decision = (level) => {
     if (userScore >= avergeGrade) {
       // Si l'utilisateur a obtenu un score suffisant
       return (
@@ -64,7 +65,7 @@ const QuizOver = React.forwardRef((props, ref) => {
 
                 {/* Contenu affiché lorsque le niveau suivant existe */}
                 <p className="successMsg">Bravo, passez au niveau suivant !!!</p>
-                <button className="btnResult success" onClick={() => loadLevelQuestions(quizLevel)}>Niveau Suivant</button>
+                <button className="btnResult success" onClick={() => loadLevelQuestions(level)}>Niveau Suivant</button>
 
               </Fragment>
 
@@ -112,6 +113,7 @@ const QuizOver = React.forwardRef((props, ref) => {
     if (userScore >= avergeGrade) {
       // je paracours le tableau avec la methode map pour afficher
       return askedQuestion.map((arrayQuestion) => {
+        
         return (
           <tr key={arrayQuestion.id}>
             {/* Les questions se trouvent dans le current.question */}
@@ -139,8 +141,8 @@ const QuizOver = React.forwardRef((props, ref) => {
 
   return (
     <Fragment>
-      {/* Methode décision voir plus haut */}
-      {decision()}
+      {/* Methode décision voir plus haut avec quizLevel comme params pour avoir le bon niveau */}
+      {decision(quizLevel)}
 
       <hr />
       <p>Les réponses au question posées: </p>

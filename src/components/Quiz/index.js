@@ -61,6 +61,7 @@ class Quiz extends Component {
 
       console.log("newArray", newArray)
 
+       
       // je mets a jour le state avec les question sans les rep (j'ajoute a mon state)
        this.setState({ storedQuestion: newArray })
 
@@ -98,6 +99,7 @@ class Quiz extends Component {
                                                   // mise a jour du composant
   componentDidUpdate(prevProps, prevState) {
   if (this.state.storedQuestion !== prevState.storedQuestion) {
+
     this.setState({
       questions: this.state.storedQuestion[this.state.idQuestion].question,
       options: this.state.storedQuestion[this.state.idQuestion].options
@@ -221,12 +223,18 @@ class Quiz extends Component {
   // Cette méthode est utilisée pour charger les questions d'un niveau spécifique du quiz.
   // elle est exporté sur le Component QuizOver
   loadLevelQuestions = (params) => {
+    
     // Réinitialise l'état à ses valeurs initiales et met à jour le niveau du quiz.
     this.setState({...this.initialState, quizLevel: params})
 
     // Ensuite, elle appelle une autre méthode pour charger les questions en fonction du niveau.
     // comme la L91 => Montage d'un nouveau compsant avec un nouveau level
-    this.loadQuestions(this.state.levelNames[params])
+    if (this.state.userScore >= this.state.maxQuestion / 2) {
+      this.loadQuestions(this.state.levelNames[params]);
+
+    } else {
+        this.loadQuestions(this.state.levelNames[params])
+    }
   }
 
 
