@@ -5,6 +5,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
+
+
 // Component
 import Levels from '../Levels'
 import ProgressBar from '../ProgressBar'
@@ -60,17 +62,16 @@ class Quiz extends Component {
       });
 
       console.log("newArray", newArray)
-
-       
+     
       // je mets a jour le state avec les question sans les rep (j'ajoute a mon state)
-       this.setState({ storedQuestion: newArray })
-
-      
+       this.setState({ storedQuestion: newArray })     
       
     }
     console.log('Pas assez de question')
 
   };
+
+
 
   // message d'accueil avec un toast
    WelcomeMessage = (name) => {
@@ -203,20 +204,21 @@ class Quiz extends Component {
 
   // methode fin de quiz (questions) (State)
   gameOver = (userPercent) => {
-
     
     // condition pour savoir si il a la moyenne
-    if (!userPercent >= 50 ) {
+    if (userPercent >= 50 ) {
       // si il n'a pas la moyenne on lui donne juste son Pourcentage et la page QuizOver avec le recape
         this.setState({
+          quizLevel: this.state.quizLevel + 1,
           percent: userPercent,
         })     
-    }
+    } else { 
     // si il a la moyenne on lui donne son Pourcentage et la page QuizOver avec le recape plus le button pour le prochain level
-      return this.setState({
-        quizLevel: this.state.quizLevel + 1,
+      this.setState({       
         percent: userPercent,
       })
+    }
+      
   }
 
 
@@ -237,8 +239,10 @@ class Quiz extends Component {
     }
   }
 
+  
 
   render() {
+
 
     // button suivant ou terminer
     const finshButton = () => {
@@ -284,8 +288,10 @@ class Quiz extends Component {
           <ToastContainer />
   
   
-          {/* Component de levels et progresse import */}
-          <Levels />
+          {/* Component de levels et progresse export avec les props */}
+          <Levels levelNames={this.state.levelNames} quizLevel={this.state.quizLevel} />
+
+          {/* Component progressBar export avec les props */}
           <ProgressBar idQuestions={this.state.idQuestion} maxQuestions={this.state.maxQuestion}/>
   
   

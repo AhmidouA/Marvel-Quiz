@@ -41,18 +41,18 @@ const QuizOver = React.forwardRef((props, ref) => {
 
         // 1er condition 
         // on le fait revenir au debut du Quizz quand il a échoué (recommencé tout le QUIZ )
-        loadLevelQuestions(0)
+        // loadLevelQuestions(0)
         
 
         // 2em condition 
         // Recommencé juste le niveau 
-        // loadLevelQuestions(quizLevel)
+        loadLevelQuestions(quizLevel)
     }, 5000); // 3ses
   }
   
 
   // methode pour la décision du Nextlevel ou pas
-  const decision = (level) => {
+  const decision = () => {
     if (userScore >= avergeGrade) {
       // Si l'utilisateur a obtenu un score suffisant
       return (
@@ -65,7 +65,7 @@ const QuizOver = React.forwardRef((props, ref) => {
 
                 {/* Contenu affiché lorsque le niveau suivant existe */}
                 <p className="successMsg">Bravo, passez au niveau suivant !!!</p>
-                <button className="btnResult success" onClick={() => loadLevelQuestions(level)}>Niveau Suivant</button>
+                <button className="btnResult success" onClick={() => loadLevelQuestions(quizLevel)}>Niveau Suivant</button>
 
               </Fragment>
 
@@ -139,10 +139,15 @@ const QuizOver = React.forwardRef((props, ref) => {
     );
   };
 
+
+
+  console.log("quizLevel: Dans quizOuver", quizLevel);
+
+
   return (
     <Fragment>
       {/* Methode décision voir plus haut avec quizLevel comme params pour avoir le bon niveau */}
-      {decision(quizLevel)}
+      {decision()}
 
       <hr />
       <p>Les réponses au question posées: </p>
