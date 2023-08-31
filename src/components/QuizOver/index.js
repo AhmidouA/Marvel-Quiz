@@ -42,9 +42,7 @@ const QuizOver = React.forwardRef((props, ref) => {
   const [openModal, setOpenModal] = useState(false);
 
   // state pour les data info nom du hero de la request axios (=> Marvel)
-  const [characterNameData, setCharacterNameData] = useState([]);
-  // state pour stocker toutes les data marvel de la request axios (=> Marvel)
-  const [dataMarvel, setDataMarvel] = useState({});
+  const [characterData, setCharacterData] = useState([]);
 
   // state pour afficher les info le temps de les avoir
   const [loading, setLoading] = useState(true);
@@ -58,9 +56,34 @@ const QuizOver = React.forwardRef((props, ref) => {
     setAskedQuestion(ref.current);
     // console.log("ref.current>>>>>", ref.current)
 
+    // je vérifie la date pour refresh la data dans le LocalStorage (Pour que la data soit tjr bonne si y'a une mise a jour)
+    if (localStorage.getItem('marvelStorageDate')) {
+        const dateData = localStorage.getItem('marvelStorageDate')
+        checkDataAge(dateData)
+    }
+
     // elle s'enclanche a chaque fois qu'il a une modif
     // je déclare ref comme dépendance
   }, [ref]);
+
+
+
+  // methode pour vérifier la date de la data dans le localStorage
+  const checkDataAge = (date) => { 
+    const today = Date.now();
+    const timeDiffrence =  today - date;
+
+    // je transforme la valeur en miliseconde en jour
+    const daysDiffrence = timeDiffrence / (1000 * 3600 * 24)
+
+    // 15 jours
+    if (daysDiffrence >= 15) {
+        // clear = effacer les info dans le localStorage
+        localStorage.clear();
+        // j'enregistre les nouvelle data
+        localStorage.setItem("marvelStorageDate", Date.now())
+    }
+}
 
 
   // const pour stocker la moyenne (50%)
@@ -87,28 +110,44 @@ const QuizOver = React.forwardRef((props, ref) => {
   const showModal = (id) => {
         setOpenModal(true);
 
-        // Api Marvel https://developer.marvel.com/docs#!/public/getCharacterIndividual_get_1
-        // https://gateway.marvel.com:443/v1/public/characters/1009362?apikey=570e9be66ef619abdb4bcbbbfc9364b6
-        axios.get(`https://gateway.marvel.com/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${hash}`)
-        .then (response => {
-            // console.log("response Axios", response)
-            // console.log("response Data", response.data.data.results[0].name)
-
-
-            // je stock les reponse dans le tableau
-            // les info sont dans la partie data de la response
-            setCharacterNameData(response.data.data.results[0].name)
-
-            // toutes les data Marvel
-            setDataMarvel(response.data)      
-            
-
-            // une fois les reponse récuperé on le ferme 
+        // on créer une condtion pour éviter trop les appel vers l'api marvel
+        // on vérifie si l'info n'est pas deja dans notre localStorage
+        if(localStorage.getItem(id)) {
+            setCharacterData(JSON.parse(localStorage.getItem(id)))
             setLoading(false)
-        })
-        .catch(error => {
-            console.log("error Axios", error)
-        })
+
+        } else {
+
+                // Api Marvel https://developer.marvel.com/docs#!/public/getCharacterIndividual_get_1
+                // https://gateway.marvel.com:443/v1/public/characters/1009362?apikey=570e9be66ef619abdb4bcbbbfc9364b6
+                axios.get(`https://gateway.marvel.com/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${hash}`)
+                .then (response => {
+                console.log("response Axios", response)
+                // console.log("response Data", response.data.data.results[0].name)
+
+                // je stock les reponse dans le tableau
+                // les info sont dans la partie data de la response
+                setCharacterData(response.data)    
+                
+
+                // je stock les info dans le localStorage pour garder en memoire reponse
+                // faut tjr deux params (id ou key et la data)
+                localStorage.setItem(id, JSON.stringify(response.data))
+
+                // si la clée marvelStorageDate n'existe pas je la créer 
+                if (!localStorage.getItem('marvelStorageDate')) {
+                    // je stock la date des info enregistrer
+                    localStorage.setItem("marvelStorageDate", Date.now())
+                }
+                
+                // une fois les reponse récuperé on le ferme 
+                setLoading(false)
+            })
+            .catch(error => {
+                console.log("error Axios", error)
+            })
+        }
+        
   };
 
  
@@ -223,7 +262,7 @@ const QuizOver = React.forwardRef((props, ref) => {
         return <Fragment>
             <div className='modalHeader'>
                 {/* response axios data */}
-                <h2>{characterNameData}</h2>
+                <h2>{characterData.data.results[0].name}</h2>
                 {/* data.data.results[0].name */}
             </div>
                 <div className='modalBody'>
