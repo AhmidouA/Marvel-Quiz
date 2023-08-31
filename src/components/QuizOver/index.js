@@ -6,6 +6,7 @@ import { FaTrophy } from 'react-icons/fa';
 
 // Component 
 import Loader from '../Loader';
+import Modal from '../Modal';
 
 
 // je suis obliger d'utiliser React.forwardRef pour pouvoir acceder au ref envoyer depuis Quiz (tableau)
@@ -33,6 +34,9 @@ const QuizOver = React.forwardRef((props, ref) => {
 
   // state pour le tableau des question
   const [askedQuestion, setAskedQuestion] = useState([]);
+
+  // state pour les info des reponse
+  const [openModal, setOpenModal] = useState(false);
 
   // useEffect => component didMont, component didUpdate
   useEffect(() => {
@@ -63,6 +67,16 @@ const QuizOver = React.forwardRef((props, ref) => {
         // Recommencé juste le niveau 
         loadLevelQuestions(quizLevel)
     }, 2000); // 5ses
+  };
+
+  // Methode modal info 
+  const showModal = (id) => {
+        setOpenModal(true)
+  }
+
+  // methode fermer la modal
+  const hideModal = () => {
+        setOpenModal(false)
   }
   
 
@@ -141,7 +155,7 @@ const QuizOver = React.forwardRef((props, ref) => {
             {/* Les reponses se trouvent dans le current.answer */}
             <td>{arrayQuestion.answer}</td>
             <td>
-              <button className="btnInfo">Infos</button>
+              <button className="btnInfo" onClick={() => showModal(arrayQuestion.heroId)}>Infos</button>
             </td>
           </tr>
         );
@@ -182,6 +196,20 @@ const QuizOver = React.forwardRef((props, ref) => {
           <tbody>{questionAnswerArray()}</tbody>
         </table>
       </div>
+
+
+        {/* Component Modal  */}
+      <Modal showModal={openModal} hideModal={hideModal}>
+        <div className='modalHeader'>
+            <h2>Titre</h2>
+        </div>
+        <div className='modalBody'>
+            <h3>Titre2</h3>
+        </div>
+        <div className='modalFooter'>
+            <button className='modalBtn'>Fermer</button>
+        </div>
+      </Modal>
     </Fragment>
   );
 })
