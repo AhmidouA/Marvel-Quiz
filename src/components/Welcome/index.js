@@ -4,12 +4,10 @@ import React, { useState, Fragment, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 
-
-
-
 // components
 import Logout from '../Logout';
 import Quiz from '../Quiz';
+import Loader from '../Loader';
 
 //bdd
 import { FirebaseContext } from '../Firebase';
@@ -84,10 +82,7 @@ const Welcome = () => {
   // methode pour savoir la session (connexion)
   const displayUser = () => {
     if (userSession === null) {
-      return <Fragment>
-        <div className='loader'></div>
-        <p>Loading...</p>
-      </Fragment>   
+      return <Loader loadingMsg={'Authentification'} styling={{ textAlign: "center", color: "#FFFFFF" }}/> 
     }
       return <div className='quiz-bg'>
         <div className='container'>
