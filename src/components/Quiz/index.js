@@ -5,6 +5,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
+// npm react-icons pour les icons
+import { FaChevronCircleRight } from 'react-icons/fa';
 
 
 // Component
@@ -258,8 +260,9 @@ class Quiz extends Component {
         key={indexOption}
         className={`answerOptions ${this.state.userAnswer === option ? "selected" : null}`}
         onClick={() => this.submitAnswer(option)}
-      >
-        {option}
+        >
+          {/* Chevron icone npm depuis react-icone */}
+        <FaChevronCircleRight /> {option}
       </p>
     ));
 

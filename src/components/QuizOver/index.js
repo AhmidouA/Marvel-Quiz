@@ -1,6 +1,10 @@
 import React, {Fragment, useEffect, useState} from 'react'
 
 
+// npm react-icons pour les icons
+import { FaTrophy } from 'react-icons/fa';
+
+
 // je suis obliger d'utiliser React.forwardRef pour pouvoir acceder au ref envoyer depuis Quiz (tableau)
 const QuizOver = React.forwardRef((props, ref) => {
   const {
@@ -17,11 +21,11 @@ const QuizOver = React.forwardRef((props, ref) => {
 
   // API key marvel depuis le ficher .env
   const API_PUBLIC_KEY = process.env.REACT_APP_MARVEL_API_KEY
-  console.log("API_PUBLIC_KEY>>>>>,", API_PUBLIC_KEY)
+  //console.log("API_PUBLIC_KEY>>>>>,", API_PUBLIC_KEY)
 
   // API Hash marvel depuis le ficher .env
   const hash = process.env.REACT_APP_MARVEL_API_HASH
-  console.log("hash>>>>>,", hash)
+  //console.log("hash>>>>>,", hash)
 
 
   // state pour le tableau des question
@@ -81,18 +85,23 @@ const QuizOver = React.forwardRef((props, ref) => {
 
               // Sinon (tous les niveaux sont terminés)
               <Fragment>
-                <p className="successMsg" >Bravo, vous êtes un expert</p>
+                <p className="successMsg" >
+                    <FaTrophy size='50' /> Bravo, vous êtes un expert
+                </p>
+
                 <button className="btnResult success" onClick={() => loadLevelQuestions(0)}>Acceuil</button>
               </Fragment>
+
             )}
-          </div>
-          <div className="percentage">
-            {/* Section affichant le pourcentage et la note */}
-            <div className="progressPercent">Réussite : {percent} %</div>
-            <div className="progressPercent">
-              Note: {userScore}/{maxQuestions}
+
             </div>
-          </div>
+                <div className="percentage">
+                    {/* Section affichant le pourcentage et la note */}
+                    <div className="progressPercent">Réussite : {percent} %</div>
+                    <div className="progressPercent">
+                    Note: {userScore}/{maxQuestions}
+                </div>
+            </div>
         </Fragment>
       );
     } else {
