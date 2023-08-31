@@ -55,3 +55,4 @@ const Levels = (props) => {
 // Memo ne recahrge pas le composant si on ajoute pas une nouvelle valeur 
 // (Optimisation)
 export default React.memo(Levels)
+

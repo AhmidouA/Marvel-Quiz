@@ -15,6 +15,14 @@ const QuizOver = React.forwardRef((props, ref) => {
   // console.log("ref", ref)
 
 
+  // API key marvel depuis le ficher .env
+  const API_PUBLIC_KEY = process.env.REACT_APP_MARVEL_API_KEY
+  console.log("API_PUBLIC_KEY>>>>>,", API_PUBLIC_KEY)
+
+  // API Hash marvel depuis le ficher .env
+  const hash = process.env.REACT_APP_MARVEL_API_HASH
+  console.log("hash>>>>>,", hash)
+
 
   // state pour le tableau des question
   const [askedQuestion, setAskedQuestion] = useState([]);

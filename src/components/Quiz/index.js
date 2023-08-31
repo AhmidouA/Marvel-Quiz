@@ -61,7 +61,7 @@ class Quiz extends Component {
         return rest;
       });
 
-      console.log("newArray", newArray)
+      // console.log("newArray", newArray)
      
       // je mets a jour le state avec les question sans les rep (j'ajoute a mon state)
        this.setState({ storedQuestion: newArray })     

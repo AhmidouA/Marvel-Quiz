@@ -11,7 +11,7 @@ const ProgressBar = (props) => {
 
   // la barre de progression du Quiz
   const ProgressPercent = getPercent(maxQuestions, idQuestions+1)
-  console.log("ProgressPercent", ProgressPercent)
+  // console.log("ProgressPercent", ProgressPercent)
 
   return (
     <Fragment>
