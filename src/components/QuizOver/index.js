@@ -4,6 +4,9 @@ import React, {Fragment, useEffect, useState} from 'react'
 // npm react-icons pour les icons
 import { FaTrophy } from 'react-icons/fa';
 
+// npm axios pour les appel d'Api
+import axios from 'axios';
+
 // Component 
 import Loader from '../Loader';
 import Modal from '../Modal';
@@ -38,6 +41,17 @@ const QuizOver = React.forwardRef((props, ref) => {
   // state pour les info des reponse
   const [openModal, setOpenModal] = useState(false);
 
+  // state pour les data info nom du hero de la request axios (=> Marvel)
+  const [characterNameData, setCharacterNameData] = useState([]);
+  // state pour stocker toutes les data marvel de la request axios (=> Marvel)
+  const [dataMarvel, setDataMarvel] = useState({});
+
+  // state pour afficher les info le temps de les avoir
+  const [loading, setLoading] = useState(true);
+
+
+
+
   // useEffect => component didMont, component didUpdate
   useEffect(() => {
     // mon tableau des question et rep est dans la proprité current du ref
@@ -71,12 +85,39 @@ const QuizOver = React.forwardRef((props, ref) => {
 
   // Methode modal info 
   const showModal = (id) => {
-        setOpenModal(true)
-  }
+        setOpenModal(true);
+
+        // Api Marvel https://developer.marvel.com/docs#!/public/getCharacterIndividual_get_1
+        // https://gateway.marvel.com:443/v1/public/characters/1009362?apikey=570e9be66ef619abdb4bcbbbfc9364b6
+        axios.get(`https://gateway.marvel.com/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${hash}`)
+        .then (response => {
+            // console.log("response Axios", response)
+            // console.log("response Data", response.data.data.results[0].name)
+
+
+            // je stock les reponse dans le tableau
+            // les info sont dans la partie data de la response
+            setCharacterNameData(response.data.data.results[0].name)
+
+            // toutes les data Marvel
+            setDataMarvel(response.data)      
+            
+
+            // une fois les reponse récuperé on le ferme 
+            setLoading(false)
+        })
+        .catch(error => {
+            console.log("error Axios", error)
+        })
+  };
+
+ 
 
   // methode fermer la modal
   const hideModal = () => {
         setOpenModal(false)
+        // une fois la modal fermer on attend la rep de axios avant de le re ouvrir et le repasser en false
+        setLoading(true)
   }
   
 
@@ -175,6 +216,38 @@ const QuizOver = React.forwardRef((props, ref) => {
   console.log("quizLevel: Dans quizOuver", quizLevel);
 
 
+  const resultModal = () => { 
+    // si le loading est false
+    // c'est a dire nous avons reçu la data
+    if (!loading) {  
+        return <Fragment>
+            <div className='modalHeader'>
+                {/* response axios data */}
+                <h2>{characterNameData}</h2>
+                {/* data.data.results[0].name */}
+            </div>
+                <div className='modalBody'>
+                <h3>Titre2</h3>
+            </div>
+            <div className='modalFooter'>
+                <button className='modalBtn'>Fermer</button>
+            </div>
+        </Fragment>      
+    } else {
+        return <Fragment>
+            <div className='modalHeader'>
+                {/* response axios data */}
+                <h2>Réponse de Marvel...</h2>
+            </div>
+                <div className='modalBody'>
+                <Loader />
+            </div>
+        </Fragment>
+    }
+}
+
+
+
   return (
     <Fragment>
       {/* Methode décision voir plus haut avec quizLevel comme params pour avoir le bon niveau */}
@@ -200,16 +273,11 @@ const QuizOver = React.forwardRef((props, ref) => {
 
         {/* Component Modal  */}
       <Modal showModal={openModal} hideModal={hideModal}>
-        <div className='modalHeader'>
-            <h2>Titre</h2>
-        </div>
-        <div className='modalBody'>
-            <h3>Titre2</h3>
-        </div>
-        <div className='modalFooter'>
-            <button className='modalBtn'>Fermer</button>
-        </div>
+         {/* result marval des info depuis la methode resultModal() plus haut  */}
+        {resultModal()}
       </Modal>
+
+     
     </Fragment>
   );
 })
