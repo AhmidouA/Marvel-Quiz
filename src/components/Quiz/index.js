@@ -5,6 +5,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
+// npm react-icons pour les icons
+import { FaChevronCircleRight } from 'react-icons/fa';
+
+
 // Component
 import Levels from '../Levels'
 import ProgressBar from '../ProgressBar'
@@ -59,17 +63,17 @@ class Quiz extends Component {
         return rest;
       });
 
-      console.log("newArray", newArray)
-
+      // console.log("newArray", newArray)
+     
       // je mets a jour le state avec les question sans les rep (j'ajoute a mon state)
-       this.setState({ storedQuestion: newArray })
-
-      
+       this.setState({ storedQuestion: newArray })     
       
     }
     console.log('Pas assez de question')
 
   };
+
+
 
   // message d'accueil avec un toast
    WelcomeMessage = (name) => {
@@ -98,6 +102,7 @@ class Quiz extends Component {
                                                   // mise a jour du composant
   componentDidUpdate(prevProps, prevState) {
   if (this.state.storedQuestion !== prevState.storedQuestion) {
+
     this.setState({
       questions: this.state.storedQuestion[this.state.idQuestion].question,
       options: this.state.storedQuestion[this.state.idQuestion].options
@@ -201,36 +206,44 @@ class Quiz extends Component {
 
   // methode fin de quiz (questions) (State)
   gameOver = (userPercent) => {
-
     
     // condition pour savoir si il a la moyenne
-    if (!userPercent >= 50 ) {
-      // si il n'a pas la moyenne on lui donne juste son Pourcentage et la page QuizOver avec le recape
+    if (userPercent >= 50 ) {
+       // si il a la moyenne on lui donne son Pourcentage et la page QuizOver avec le recape plus le button pour le prochain level
         this.setState({
+          quizLevel: this.state.quizLevel + 1,
           percent: userPercent,
         })     
-    }
-    // si il a la moyenne on lui donne son Pourcentage et la page QuizOver avec le recape plus le button pour le prochain level
-      return this.setState({
-        quizLevel: this.state.quizLevel + 1,
+    } else { 
+      // si il n'a pas la moyenne on lui donne juste son Pourcentage et la page QuizOver avec le recape
+      this.setState({       
         percent: userPercent,
       })
+    }   
   }
 
 
   // Cette méthode est utilisée pour charger les questions d'un niveau spécifique du quiz.
   // elle est exporté sur le Component QuizOver
   loadLevelQuestions = (params) => {
+    
     // Réinitialise l'état à ses valeurs initiales et met à jour le niveau du quiz.
     this.setState({...this.initialState, quizLevel: params})
 
     // Ensuite, elle appelle une autre méthode pour charger les questions en fonction du niveau.
     // comme la L91 => Montage d'un nouveau compsant avec un nouveau level
-    this.loadQuestions(this.state.levelNames[params])
+    if (this.state.userScore >= this.state.maxQuestion / 2) {
+      this.loadQuestions(this.state.levelNames[params]);
+
+    } else {
+        this.loadQuestions(this.state.levelNames[params])
+    }
   }
 
+  
 
   render() {
+
 
     // button suivant ou terminer
     const finshButton = () => {
@@ -247,8 +260,9 @@ class Quiz extends Component {
         key={indexOption}
         className={`answerOptions ${this.state.userAnswer === option ? "selected" : null}`}
         onClick={() => this.submitAnswer(option)}
-      >
-        {option}
+        >
+          {/* Chevron icone npm depuis react-icone */}
+        <FaChevronCircleRight /> {option}
       </p>
     ));
 
@@ -276,8 +290,10 @@ class Quiz extends Component {
           <ToastContainer />
   
   
-          {/* Component de levels et progresse import */}
-          <Levels />
+          {/* Component de levels et progresse export avec les props */}
+          <Levels levelNames={this.state.levelNames} quizLevel={this.state.quizLevel} />
+
+          {/* Component progressBar export avec les props */}
           <ProgressBar idQuestions={this.state.idQuestion} maxQuestions={this.state.maxQuestion}/>
   
   

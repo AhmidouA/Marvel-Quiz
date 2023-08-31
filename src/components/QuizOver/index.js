@@ -1,6 +1,10 @@
 import React, {Fragment, useEffect, useState} from 'react'
 
 
+// npm react-icons pour les icons
+import { FaTrophy } from 'react-icons/fa';
+
+
 // je suis obliger d'utiliser React.forwardRef pour pouvoir acceder au ref envoyer depuis Quiz (tableau)
 const QuizOver = React.forwardRef((props, ref) => {
   const {
@@ -14,6 +18,14 @@ const QuizOver = React.forwardRef((props, ref) => {
   // console.log("props", props)
   // console.log("ref", ref)
 
+
+  // API key marvel depuis le ficher .env
+  const API_PUBLIC_KEY = process.env.REACT_APP_MARVEL_API_KEY
+  //console.log("API_PUBLIC_KEY>>>>>,", API_PUBLIC_KEY)
+
+  // API Hash marvel depuis le ficher .env
+  const hash = process.env.REACT_APP_MARVEL_API_HASH
+  //console.log("hash>>>>>,", hash)
 
 
   // state pour le tableau des question
@@ -41,12 +53,13 @@ const QuizOver = React.forwardRef((props, ref) => {
 
         // 1er condition 
         // on le fait revenir au debut du Quizz quand il a échoué (recommencé tout le QUIZ )
-        loadLevelQuestions(0)
+        // loadLevelQuestions(0)
+        
 
         // 2em condition 
         // Recommencé juste le niveau 
-        // loadLevelQuestions(quizLevel)
-    }, 3000); // 3ses
+        loadLevelQuestions(quizLevel)
+    }, 5000); // 3ses
   }
   
 
@@ -72,18 +85,23 @@ const QuizOver = React.forwardRef((props, ref) => {
 
               // Sinon (tous les niveaux sont terminés)
               <Fragment>
-                <p className="successMsg" >Bravo, vous êtes un expert</p>
+                <p className="successMsg" >
+                    <FaTrophy size='50' /> Bravo, vous êtes un expert
+                </p>
+
                 <button className="btnResult success" onClick={() => loadLevelQuestions(0)}>Acceuil</button>
               </Fragment>
+
             )}
-          </div>
-          <div className="percentage">
-            {/* Section affichant le pourcentage et la note */}
-            <div className="progressPercent">Réussite : {percent} %</div>
-            <div className="progressPercent">
-              Note: {userScore}/{maxQuestions}
+
             </div>
-          </div>
+                <div className="percentage">
+                    {/* Section affichant le pourcentage et la note */}
+                    <div className="progressPercent">Réussite : {percent} %</div>
+                    <div className="progressPercent">
+                    Note: {userScore}/{maxQuestions}
+                </div>
+            </div>
         </Fragment>
       );
     } else {
@@ -112,6 +130,7 @@ const QuizOver = React.forwardRef((props, ref) => {
     if (userScore >= avergeGrade) {
       // je paracours le tableau avec la methode map pour afficher
       return askedQuestion.map((arrayQuestion) => {
+        
         return (
           <tr key={arrayQuestion.id}>
             {/* Les questions se trouvent dans le current.question */}
@@ -137,9 +156,14 @@ const QuizOver = React.forwardRef((props, ref) => {
     );
   };
 
+
+
+  console.log("quizLevel: Dans quizOuver", quizLevel);
+
+
   return (
     <Fragment>
-      {/* Methode décision voir plus haut */}
+      {/* Methode décision voir plus haut avec quizLevel comme params pour avoir le bon niveau */}
       {decision()}
 
       <hr />
