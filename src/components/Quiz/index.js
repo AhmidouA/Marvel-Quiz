@@ -207,18 +207,17 @@ class Quiz extends Component {
     
     // condition pour savoir si il a la moyenne
     if (userPercent >= 50 ) {
-      // si il n'a pas la moyenne on lui donne juste son Pourcentage et la page QuizOver avec le recape
+       // si il a la moyenne on lui donne son Pourcentage et la page QuizOver avec le recape plus le button pour le prochain level
         this.setState({
           quizLevel: this.state.quizLevel + 1,
           percent: userPercent,
         })     
     } else { 
-    // si il a la moyenne on lui donne son Pourcentage et la page QuizOver avec le recape plus le button pour le prochain level
+      // si il n'a pas la moyenne on lui donne juste son Pourcentage et la page QuizOver avec le recape
       this.setState({       
         percent: userPercent,
       })
-    }
-      
+    }   
   }
 
 

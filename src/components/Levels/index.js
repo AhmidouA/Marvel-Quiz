@@ -22,10 +22,10 @@ const Levels = (props) => {
     // map pour obtenir un new objet pour les niveau et les afficher
 
     
-    const quizSteps = levelNames.map((level, index) => ({
+    const quizSteps = levelNames.map((level) => (
       // map va prendre l'element en question et va l'associer a un title
-        title: level,
-    }));
+      {title: level.toUpperCase()}
+      ));
 
     // j'enregiste le nouveau tableau dans mon state
     setUserLevels(quizSteps) 
@@ -33,13 +33,21 @@ const Levels = (props) => {
     // a chaque fois qu'il a un changement elle se recharge = componentDidUpdate
   }, [levelNames])
   
-  console.log("userLevels>>>>", userLevels)
-  
-  
+ 
   
   return (
-    <div className="levelsContainer">
-          <Stepper steps={userLevels} activeStep={quizLevel} />
+    <div className="levelsContainer" style={{background: 'transparent'}}>
+         
+          <Stepper 
+          steps={userLevels} 
+          activeStep={quizLevel} 
+          // {/* circleTop = style de Stepper = margin */}
+          circleTop={0} 
+          activeTitleColor={'#d31017'}
+          activeColor= {'#d31017'}
+          size={36}
+          titleFontSize={18}
+          />
     </div>
   )
 }
