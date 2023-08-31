@@ -3,6 +3,10 @@ import React, { useEffect, useState, useContext } from "react";
 //bdd
 import { FirebaseContext } from '../Firebase';
 
+// npm react-tooltip pour la deconnexion
+import { Tooltip } from 'react-tooltip'
+
+
 
 const Logout = () => {
 
@@ -37,9 +41,11 @@ const Logout = () => {
           type="checkbox" 
           checked={checked}
         />
-        <span className="slider round"></span>
+        {/* data-tooltip = npm pour la déconnexion */}
+        <span className="slider round" data-tooltip-id="my-tooltip" data-tooltip-content="Déconnexion"></span>
       </label>
-        
+      {/* ReactTooltip = npm pour la déconnexion */}
+       <Tooltip place="left" effect="solid" id="my-tooltip" />
     </div>
   )
 }
