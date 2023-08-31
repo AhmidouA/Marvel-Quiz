@@ -4,6 +4,9 @@ import React, {Fragment, useEffect, useState} from 'react'
 // npm react-icons pour les icons
 import { FaTrophy } from 'react-icons/fa';
 
+// Component 
+import Loader from '../Loader';
+
 
 // je suis obliger d'utiliser React.forwardRef pour pouvoir acceder au ref envoyer depuis Quiz (tableau)
 const QuizOver = React.forwardRef((props, ref) => {
@@ -59,7 +62,7 @@ const QuizOver = React.forwardRef((props, ref) => {
         // 2em condition 
         // Recommencé juste le niveau 
         loadLevelQuestions(quizLevel)
-    }, 5000); // 3ses
+    }, 2000); // 5ses
   }
   
 
@@ -147,10 +150,7 @@ const QuizOver = React.forwardRef((props, ref) => {
     return (
       <tr>
         <td colSpan="3">
-            <div className='loader'></div>
-          <p style={{ textAlign: "center", color: "red" }}>
-            Pas de réponses...
-          </p>
+            <Loader loadingMsg={'Pas de réponse...'} styling={{ textAlign: "center", color: "red" }}/>
         </td>
       </tr>
     );
