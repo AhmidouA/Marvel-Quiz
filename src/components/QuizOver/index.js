@@ -256,7 +256,7 @@ const QuizOver = React.forwardRef((props, ref) => {
     if (characterData.data.results[0].urls) {
         return characterData.data.results[0].urls.map((url, index) => {
             // vue qu'on modifie rien et qu'on affiche tous les element on mes index
-            // Pour afficher dans un nouvelle onglet on met un target
+            // Pour afficher dans un nouvelle onglet on met un target = on ouvre les liens dans le nouvelle onglet
             return <a key={index} href={url.url} target='_blank' rel='noopener noreferrer'> {url.type} </a>
         })
     }
