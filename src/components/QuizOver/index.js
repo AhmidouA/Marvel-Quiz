@@ -12,6 +12,12 @@ import Loader from '../Loader';
 import Modal from '../Modal';
 
 
+// npm react-toastify pour les notifacation et Toaster
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
 // je suis obliger d'utiliser React.forwardRef pour pouvoir acceder au ref envoyer depuis Quiz (tableau)
 const QuizOver = React.forwardRef((props, ref) => {
   const {
@@ -102,9 +108,24 @@ const QuizOver = React.forwardRef((props, ref) => {
 
         // 2em condition 
         // Recommencé juste le niveau 
-        loadLevelQuestions(quizLevel)
-    }, 2000); // 5ses
+        loadLevelQuestions(quizLevel,)
+
+    }, 5000); // 5ses
   };
+
+  // toast Echoué recommencé
+  const toastLoose = () => {
+    return toast.warn('😛 Raté ! Vous avez eu moins de 50%. Il faut recommencer le niveau.', {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
+  }
 
   // Methode modal info 
   const showModal = (id) => {
@@ -164,6 +185,7 @@ const QuizOver = React.forwardRef((props, ref) => {
   const decision = () => {
     if (userScore >= avergeGrade) {
       // Si l'utilisateur a obtenu un score suffisant
+
       return (
         <Fragment>
           {/* Contenu affiché lorsque le score est suffisant */}
@@ -205,6 +227,7 @@ const QuizOver = React.forwardRef((props, ref) => {
       // Si la condition n'est pas remplie
       return (
         <Fragment>
+          {toastLoose()}
           <div className="stepsBtnContainer">
             {/* Contenu affiché lorsque le score n'est pas suffisant */}
             <p className="failureMsg">Perdu, vous avez échoué !!!</p>
@@ -323,6 +346,9 @@ const QuizOver = React.forwardRef((props, ref) => {
     <Fragment>
       {/* Methode décision voir plus haut avec quizLevel comme params pour avoir le bon niveau */}
       {decision()}
+
+      {/* J'affcihe mon toast de perdu et je le limite a une seul fois */}
+      <ToastContainer limit={1} />
 
       <hr />
       <p>Les réponses au question posées: </p>
