@@ -251,6 +251,17 @@ const QuizOver = React.forwardRef((props, ref) => {
   };
 
 
+  // methode pour afficher les liens urls obligatoire (Plus d'info dans l'info de la rep)
+  const urlHero = () => {
+    if (characterData.data.results[0].urls) {
+        return characterData.data.results[0].urls.map((url, index) => {
+            // vue qu'on modifie rien et qu'on affiche tous les element on mes index
+            // Pour afficher dans un nouvelle onglet on met un target = on ouvre les liens dans le nouvelle onglet
+            return <a key={index} href={url.url} target='_blank' rel='noopener noreferrer'> {url.type} </a>
+        })
+    }
+  }
+
 
   console.log("quizLevel: Dans quizOuver", quizLevel);
 
@@ -266,10 +277,31 @@ const QuizOver = React.forwardRef((props, ref) => {
                 {/* data.data.results[0].name */}
             </div>
                 <div className='modalBody'>
-                <h3>Titre2</h3>
+                    <div className='comicImage'>                     
+                        {/* Url pour avoir l'image du hero */}
+                        <img 
+                            src={characterData.data.results[0].thumbnail.path+'.'+characterData.data.results[0].thumbnail.extension}
+                            alt={characterData.data.results[0].name}>
+                        </img>
+
+                        {/* ex : Data provided by Marvel. © 2023 MARVEL */}
+                        <p>{characterData.attributionText}</p>
+                    </div>
+                    <div className='comicDetails'>
+                        <h3>Description</h3>
+                        {/* Condition pour afficher la description si elle est existe dans la data */}
+                        {characterData.data.results[0].description ? (
+                            <p>{characterData.data.results[0].description}</p>
+                        ) : (
+                            <p>Description indisponible...</p>
+                        )}
+                        <h3>Plus d'info</h3>
+                            {/* Methode pour afficher les urls obligatoire des info dans la modal avec les nom */}
+                            {urlHero()}
+                    </div>
             </div>
             <div className='modalFooter'>
-                <button className='modalBtn'>Fermer</button>
+                <button className='modalBtn' onClick={hideModal}>Fermer</button>
             </div>
         </Fragment>      
     } else {
@@ -311,7 +343,7 @@ const QuizOver = React.forwardRef((props, ref) => {
 
 
         {/* Component Modal  */}
-      <Modal showModal={openModal} hideModal={hideModal}>
+      <Modal showModal={openModal}>
          {/* result marval des info depuis la methode resultModal() plus haut  */}
         {resultModal()}
       </Modal>
