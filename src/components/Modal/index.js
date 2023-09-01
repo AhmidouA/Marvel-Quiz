@@ -4,11 +4,11 @@ const Modal = (props) => {
 
     // props quizOver
     // children => Props pour tout les element mits dans modal au niveau de quizOver on peut les avoir(= all)
-    const { showModal, children, hideModal } = props
+    const { showModal, children } = props
 
     if (showModal) {
         return (
-        <div className='modalBackground' onClick={hideModal}>
+        <div className='modalBackground' >
             <div className='modalContainer'>
                 {children}
             </div>
