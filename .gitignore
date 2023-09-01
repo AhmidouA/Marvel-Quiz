@@ -3,6 +3,9 @@
 #api Keys
 .env
 
+#FireStore Rules Security
+CloudFireStoreSecurityRules.md
+
 # dependencies
 /node_modules
 /.pnp

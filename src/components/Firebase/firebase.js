@@ -9,13 +9,14 @@ import { getFirestore, doc } from 'firebase/firestore'
 
 
 // Your web app's Firebase configuration (google firebase params)
+// varibale d'env
 const firebaseConfig = {
-    apiKey: "AIzaSyCcg8yHm3GaaAFvKywaDN63Zr1jlWJj5Mg",
-    authDomain: "marval-quiz-350e2.firebaseapp.com",
-    projectId: "marval-quiz-350e2",
-    storageBucket: "marval-quiz-350e2.appspot.com",
-    messagingSenderId: "227775404992",
-    appId: "1:227775404992:web:12c3ee14d2187387bcc625"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGIN_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID
   };
 // Api
 class Firebase {
