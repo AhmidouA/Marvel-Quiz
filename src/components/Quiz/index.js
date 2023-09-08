@@ -65,7 +65,7 @@ class Quiz extends Component {
 
   // message d'accueil avec un toast
   WelcomeMessage = (name) => {
-    toast.info(`🚀 🚀 Bienvenu ${name}!!!`, {
+    toast.info(`🚀 🚀 Bienvenue ${name}!!!`, {
       position: "top-right",
       autoClose: 2000,
       hideProgressBar: false,

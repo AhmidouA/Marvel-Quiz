@@ -165,14 +165,14 @@ const SignUp = () => {
 
                       <div className='inputBox'>
                         <input onChange={handleChange} value={confirmPassword} type='password' id="confirmPassword" autoComplete='off' required/>
-                        <label htmlFor='confirmPassword'>Confimer le mot de pass</label>                      
+                        <label htmlFor='confirmPassword'>Confimer le mot de passe</label>                      
                       </div>
 
                       {/* Confirm form methode */}
                       {FormConfirm()}
                   </form>
                   <div className='linkContainer'>
-                    <Link className='simpleLink' to='/login'>Déjé Inscrit ? Connextez-vous.</Link>
+                    <Link className='simpleLink' to='/login'>déjà inscrit ? Connextez-vous.</Link>
                   </div>
               </div>
             </div>
