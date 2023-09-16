@@ -120,7 +120,7 @@ const ForgotPassword = () => {
           </form>
           <div className="linkContainer">
             <Link className="simpleLink" to="/login">
-              Déjé Inscrit ? Connextez-vous.
+              Déjé Inscrit ? Connectez-vous.
             </Link>
           </div>
         </div>
