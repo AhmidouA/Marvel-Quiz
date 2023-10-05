@@ -172,7 +172,7 @@ const SignUp = () => {
                       {FormConfirm()}
                   </form>
                   <div className='linkContainer'>
-                    <Link className='simpleLink' to='/login'>déjà inscrit ? Connextez-vous.</Link>
+                    <Link className='simpleLink' to='/login'>déjà inscrit ? Connectez-vous.</Link>
                   </div>
               </div>
             </div>
