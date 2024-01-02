@@ -25,12 +25,10 @@ function App() {
   return (
 
       <Router>
-        {/* Pour les Icone centré je le passe dans un context comme dit dans le npm */}
+
         <IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
           <Header />
-          {/* <Routes> a remplacé <Switch> */}
           <Routes >
-              {/* Les routes pour pouvoir les utiliser */}
               <Route path='/' element={<Landing />} />
               <Route path='/welcome' element={<Welcome />} />
               <Route path='/login' element={<Login />} />
